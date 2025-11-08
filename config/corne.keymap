@@ -1,7 +1,17 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
+ * ============================================================
+ * Corne (CRKBD) Keymap - Productivity & Development Optimized
+ * ============================================================
+ * Hardware: nice!nano v2 + nice!view
+ * OS: Windows
+ * Use Cases: Gmail (shortcuts mode), Google Sheets, Adobe Acrobat, VS Code (Python/C++)
+ * Features: Home Row Mods, One-handed navigation, App-specific shortcuts
+ * 
+ * Author Notes:
+ * - Space on LEFT thumb for comfort
+ * - Home row mods: GUI/Alt/Ctrl/Shift (GACS order)
+ * - Beginner-friendly timing for smooth learning curve
+ * - Numbers/symbols optimized for data entry and coding
  */
 
 #include <behaviors.dtsi>
@@ -9,63 +19,180 @@
 #include <dt-bindings/zmk/bt.h>
 
 / {
-        keymap {
-                compatible = "zmk,keymap";
-
-                default_layer {
-// -----------------------------------------------------------------------------------------
-// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
-// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
-                        display-name = "Base";
-                        bindings = <
-   &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
-   &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-   &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                  &kp LGUI &mo 1 &kp SPACE   &kp RET &mo 2 &kp RALT
-                        >;
-                };
-                lower_layer {
-// -----------------------------------------------------------------------------------------
-// |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
-                        display-name = "Lower";
-                        bindings = <
-   &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &kp LSHFT  &trans       &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
-                          	        &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp RALT
-                        >;
-                };
-
-                raise_layer {
-// -----------------------------------------------------------------------------------------
-// |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
-                        display-name = "Raise";
-                        bindings = <
-   &kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
-   &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &kp GRAVE
-   &kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &kp TILDE
-                    	     &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
-                        >;
-                };
-
-                extra_1 {
-                        status = "reserved";
-                };
-
-                extra_2 {
-                        status = "reserved";
-                };
-
-                extra_3 {
-                        status = "reserved";
-                };
+    behaviors {
+        /*
+         * Home Row Mods - Optimized for beginners
+         * - 200ms hold time: comfortable for learning
+         * - require-prior-idle-ms: prevents accidental activation while fast typing
+         * - balanced flavor: best for mixed typing and shortcuts
+         */
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&kp>;
         };
+
+        /*
+         * Shift on Caps Word - Sticky shift for typing CONSTANTS or SQL
+         */
+        skq: sticky_key_quick_release {
+            compatible = "zmk,behavior-sticky-key";
+            label = "STICKY_KEY_QUICK_RELEASE";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <1000>;
+            quick-release;
+        };
+    };
+
+    /*
+     * Combo Keys - Quick access without layer switching
+     * Useful for common shortcuts while keeping hands on home row
+     */
+    combos {
+        compatible = "zmk,combos";
+        
+        // ESC: Q + W (top left corner for quick escape)
+        combo_esc {
+            timeout-ms = <50>;
+            key-positions = <1 2>;
+            bindings = <&kp ESC>;
+        };
+
+        // Tab: W + E (useful for Gmail 'g then i' workflow)
+        combo_tab {
+            timeout-ms = <50>;
+            key-positions = <2 3>;
+            bindings = <&kp TAB>;
+        };
+
+        // Caps Word: Both Shifts (F + J) - For typing SQL, CONSTANTS
+        combo_caps_word {
+            timeout-ms = <50>;
+            key-positions = <16 19>;
+            bindings = <&caps_word>;
+        };
+
+        // Delete: Backspace combo (O + P)
+        combo_del {
+            timeout-ms = <50>;
+            key-positions = <8 9>;
+            bindings = <&kp DEL>;
+        };
+
+        // Screenshot: Win + Shift + S (common on Windows)
+        combo_screenshot {
+            timeout-ms = <50>;
+            key-positions = <25 26>;
+            bindings = <&kp LG(LS(S))>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        /*
+         * ================================================================
+         * LAYER 0: BASE (QWERTY with Home Row Mods)
+         * ================================================================
+         * Primary layer for typing and Gmail shortcuts
+         * Home row mods: GUI(Win) / Alt / Ctrl / Shift on ASDF & JKL;
+         * Space on LEFT thumb for natural reach
+         */
+        base_layer {
+            label = "BASE";
+            bindings = <
+        // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+            &kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &kp ESC    &hm LGUI A &hm LALT S &hm LCTRL D &hm LSHFT F &kp G        &kp H      &hm RSHFT J &hm RCTRL K &hm RALT L &hm RGUI SEMI &kp SQT
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
+        // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
+                                             &kp SPACE  &mo 1      &kp LGUI       &kp RET    &mo 2      &kp RALT
+        //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        /*
+         * ================================================================
+         * LAYER 1: LOWER (Numbers, Symbols, Navigation)
+         * ================================================================
+         * Accessed by holding LEFT thumb key (second position)
+         * Optimized for:
+         * - Number entry (Google Sheets data entry)
+         * - Common symbols and punctuation
+         * - One-handed arrow navigation on right side
+         */
+        lower_layer {
+            label = "NUM/NAV";
+            bindings = <
+        // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+            &kp GRAVE  &kp N1     &kp N2     &kp N3     &kp N4     &kp N5         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp DEL
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT  &kp COLON  &kp DQT
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &kp CARET  &kp AMPS   &kp STAR   &kp MINUS  &kp EQUAL      &kp HOME   &kp PG_DN  &kp PG_UP  &kp END    &kp BSLH   &trans
+        // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
+                                             &trans     &trans     &trans         &trans     &mo 3      &trans
+        //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        /*
+         * ================================================================
+         * LAYER 2: RAISE (Coding Symbols, Functions, Brackets)
+         * ================================================================
+         * Accessed by holding RIGHT thumb key (second position)
+         * Optimized for:
+         * - Python/C++ coding (brackets, operators, underscores)
+         * - Function keys (F1-F12)
+         * - Media controls
+         */
+        raise_layer {
+            label = "CODE/FN";
+            bindings = <
+        // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+            &kp TILDE  &kp F1     &kp F2     &kp F3     &kp F4     &kp F5         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &kp F11
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &kp UNDER  &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT       &kp EQUAL  &kp MINUS  &kp PLUS   &kp STAR   &kp C_PP   &kp F12
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &kp PIPE   &kp LBRC   &kp RBRC   &kp LT     &kp GT         &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP &kp C_NEXT &kp C_MUTE &trans
+        // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
+                                             &trans     &mo 3      &trans         &trans     &trans     &trans
+        //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        /*
+         * ================================================================
+         * LAYER 3: ADJUST (System, Shortcuts, Bluetooth)
+         * ================================================================
+         * Accessed by holding BOTH thumb layer keys (Layer 1 + 2)
+         * Contains:
+         * - Gmail shortcuts (left side)
+         * - VS Code shortcuts (right side)
+         * - Bluetooth controls (top left)
+         * - System controls
+         */
+        adjust_layer {
+            label = "ADJUST";
+            bindings = <
+        // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+            &sys_reset &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_CLR &none   &kp LC(LS(K)) &kp LC(FSLH) &kp LC(D) &kp LC(LS(F)) &kp LC(F) &kp LC(H)
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &bootloader &kp LC(A)  &kp LC(S)  &kp LC(LS(D)) &kp LC(F) &kp LC(G)  &kp LC(B)  &kp LC(J)  &kp LC(K)  &kp LC(L)  &kp LC(SEMI) &none
+        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(B)      &kp LC(GRAVE) &none   &none      &none      &none      &trans
+        // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
+                                             &trans     &trans     &trans         &trans     &trans     &trans
+        //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+    };
 };
