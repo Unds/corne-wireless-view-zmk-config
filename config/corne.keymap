@@ -180,10 +180,10 @@
         adjust_layer {
             label = "ADJUST";
             bindings = <
-&sys_reset   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_CLR  &none        &kp LC(LS(K))  &kp LC(FSLH)  &kp LC(D)  &kp LC(LS(F))  &kp LC(F)     &kp LC(H)
-&bootloader  &kp LC(A)     &kp LC(S)     &kp LC(LS(D))  &kp LC(F)   &kp LC(G)    &kp LC(B)      &kp LC(J)     &kp LC(K)  &kp LC(L)      &kp LC(SEMI)  &none
-&trans       &kp LC(Z)     &kp LC(X)     &kp LC(C)      &kp LC(V)   &kp LC(B)    &kp LC(GRAVE)  &none         &none      &none          &none         &trans
-                                         &trans         &trans      &trans       &trans         &trans        &trans
+&bt BT_CLR_ALL  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_CLR  &none        &kp LC(LS(K))  &kp LC(FSLH)  &kp LC(D)  &kp LC(LS(F))  &kp LC(F)     &kp LC(H)
+&bootloader     &kp LC(A)     &kp LC(S)     &kp LC(LS(D))  &kp LC(F)   &kp LC(G)    &kp LC(B)      &kp LC(J)     &kp LC(K)  &kp LC(L)      &kp LC(SEMI)  &none
+&trans          &kp LC(Z)     &kp LC(X)     &kp LC(C)      &kp LC(V)   &kp LC(B)    &kp LC(GRAVE)  &none         &none      &none          &none         &trans
+                                            &trans         &trans      &trans       &trans         &trans        &trans
             >;
         };
     };
