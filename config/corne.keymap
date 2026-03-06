@@ -134,8 +134,8 @@
          * - One-handed arrow navigation on right side
          */
 
-        lower_layer {
-            label = "NUM/NAV";
+        NUM_SYMB {
+            label = "NUM&SYM";
             bindings = <
 &kp GRAVE     &kp N1        &kp N2        &kp N3    &kp N4         &kp N5         &kp N6     &kp N7        &kp N8        &kp N9        &kp N0     &kp LS(QMARK)
 &kp LS(DLLR)  &kp LS(EXCL)  &kp AT        &kp HASH  &kp DLLR       &kp PRCNT      &kp EQUAL  &kp LS(LPAR)  &kp LS(RPAR)  &kp LBKT      &kp RBKT   &kp LS(COLON)
@@ -155,13 +155,13 @@
          * - Media controls
          */
 
-        raise_layer {
-            label = "CODE/FN";
+        NAV {
+            label = "NAV";
             bindings = <
-&kp TILDE  &kp F1     &kp F2    &kp F3    &kp F4    &kp F5      &kp F6      &kp F7        &kp F8        &kp F9      &kp F10     &kp F11
-&trans     &kp UNDER  &kp LPAR  &kp RPAR  &kp LBKT  &kp RBKT    &kp EQUAL   &kp MINUS     &kp PLUS      &kp STAR    &kp C_PP    &kp F12
-&trans     &kp PIPE   &kp LBRC  &kp RBRC  &kp LT    &kp GT      &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_NEXT  &kp C_MUTE  &trans
-                                &trans    &mo 3     &trans      &trans      &trans        &trans
+&kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &trans     &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
+&kp LC(A)    &kp LC(S)      &trans     &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
+&kp LC(Z)    &kp LC(X)      &kp LC(C)  &kp LC(V)  &kp LT     &kp GT       &kp LS(TAB)   &kp TAB        &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)  &kp K_APP
+                                       &trans     &mo 3      &trans       &kp DEL       &kp BACKSPACE  &kp ENTER
             >;
         };
 
@@ -177,13 +177,13 @@
          * - System controls
          */
 
-        adjust_layer {
-            label = "ADJUST";
+        FN_BT {
+            label = "FUNC & BT";
             bindings = <
-&bt BT_CLR_ALL  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_CLR  &none        &kp LC(LS(K))  &kp LC(FSLH)  &kp LC(D)  &kp LC(LS(F))  &kp LC(F)     &kp LC(H)
-&bootloader     &kp LC(A)     &kp LC(S)     &kp LC(LS(D))  &kp LC(F)   &kp LC(G)    &kp LC(B)      &kp LC(J)     &kp LC(K)  &kp LC(L)      &kp LC(SEMI)  &none
-&trans          &kp LC(Z)     &kp LC(X)     &kp LC(C)      &kp LC(V)   &kp LC(B)    &kp LC(GRAVE)  &none         &none      &none          &none         &trans
-                                            &trans         &trans      &trans       &trans         &trans        &trans
+&trans  &kp F1   &kp F2   &kp F3           &kp F4          &kp F5             &bt BT_SEL 0  &bt BT_SEL 1      &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR    &kp C_VOLUME_UP
+&trans  &kp F6   &kp F7   &kp F8           &kp F9          &kp F10            &kp C_PREV    &kp C_PLAY_PAUSE  &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN  &trans
+&trans  &kp F11  &kp F12  &kp PRINTSCREEN  &kp SCROLLLOCK  &kp PAUSE_BREAK    &trans        &none             &none         &none         &none         &trans
+                          &trans           &trans          &trans             &trans        &trans            &trans
             >;
         };
     };
