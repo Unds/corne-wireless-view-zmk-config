@@ -119,7 +119,7 @@
 &kp TAB    &kp Q  &kp W  &kp F         &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
 &kp ESC    &kp A  &kp R  &kp S         &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
 &kp LSHFT  &kp Z  &kp X  &kp C         &kp D  &kp V        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                         &kp LEFT_GUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &kp RALT
+                         &kp LEFT_GUI  &mo 4  &kp SPACE    &kp RET  &mo 2  &kp RALT
             >;
         };
 
