@@ -102,7 +102,7 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
          */
         base_layer {
             label = "BASE";
-            bindings = 
+            bindings = <
 &kp TAB    &kp Q         &kp W         &kp F          &kp P          &kp B          &kp J    &kp L          &kp U          &kp Y         &kp SEMI      &kp BSPC
 &kp ESC    &hml LGUI A   &hml LALT R   &hml LCTRL S   &hml LSHFT T   &kp G          &kp M    &hmr RSHFT N   &hmr RCTRL E   &hmr RALT I   &hmr RGUI O   &kp SQT
 &skq LSHFT  &kp Z         &kp X         &kp C          &kp D          &kp V          &kp K    &kp H          &kp COMMA      &kp DOT       &kp FSLH      &kp RSHFT
@@ -117,7 +117,7 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
          */
         NUM_SYMB {
             label = "NUM&SYM";
-            bindings = 
+            bindings = <
 &kp GRAVE     &kp N1           &kp N2    &kp N3    &kp N4     &kp N5               &kp N6     &kp N7                &kp N8                 &kp N9           &kp N0     &kp QUESTION
 &kp DOLLAR    &kp EXCLAMATION  &kp AT    &kp HASH  &kp DLLR   &kp PRCNT            &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LBKT         &kp RBKT   &kp COLON
 &kp ASTERISK  &kp BSLH         &kp PIPE  &kp SQT   &kp TILDE  &kp DOUBLE_QUOTES    &kp MINUS  &kp PLUS              &kp LEFT_BRACE         &kp RIGHT_BRACE  &kp MINUS  &kp N0
@@ -132,7 +132,7 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
          */
         NAV {
             label = "NAV";
-            bindings = 
+            bindings = <
 &kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &none     &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
 &kp LC(A)    &kp LC(S)      &none     &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
 &kp LC(Z)    &kp LC(X)      &kp LC(C)  &kp LC(V)  &kp LT     &kp GT       &kp LS(TAB)   &kp TAB        &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)  &kp K_APP
@@ -147,7 +147,7 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
          */
         FN_BT {
             label = "FUNC & BT";
-            bindings = 
+            bindings = <
 &none  &kp F1   &kp F2   &kp F3           &kp F4          &kp F5             &bt BT_SEL 0  &bt BT_SEL 1      &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR    &kp C_VOLUME_UP
 &none  &kp F6   &kp F7   &kp F8           &kp F9          &kp F10            &kp C_PREV    &kp C_PLAY_PAUSE  &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN  &none
 &none  &kp F11  &kp F12  &kp PRINTSCREEN  &kp SCROLLLOCK  &kp PAUSE_BREAK    &none        &none             &none         &none         &none         &none
@@ -161,12 +161,12 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
          * ================================================================
          */
         Numpad {
-            Label = "Numpad";
-            bindings = 
-&none  &none        &none      &none                 &none                  &none         &kp N7    &kp N8  &kp N9  &kp BSPC  &none
-&none  &kp PLUS     &kp MINUS  &kp STAR              &kp FSLH               &kp EQUAL     &none     &kp N4  &kp N5  &kp N6  &kp DOT   &none
-&none  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &none     &kp N1  &kp N2  &kp N3  &kp RET   &none
-                                &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &kp N0
+            label = "Numpad";
+            bindings = <
+&none  &none        &none      &none                 &none                  &none         &kp N7     &kp N8  &kp N9  &kp BSPC  &none    &none
+&none  &kp PLUS     &kp MINUS  &kp STAR              &kp FSLH               &kp EQUAL     &none      &kp N4  &kp N5  &kp N6    &kp DOT  &none
+&none  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &none      &kp N1  &kp N2  &kp N3    &kp RET  &none
+                                &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &trans
             >;
         };
     };
