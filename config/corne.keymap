@@ -94,18 +94,18 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
 
         /*
          * ================================================================
-         * LAYER 0: BASE (Colemak-DH with Home Row Mods)
+         * LAYER 0: BASE (QWERTY with Home Row Mods)
          * ================================================================
-         * Home row mods (GACS): 
-         *   Left:  A=GUI  R=Alt  S=Ctrl  T=Shift
-         *   Right: N=Shift  E=Ctrl  I=Alt  O=GUI
+         * Home row mods (GACS):
+         *   Left:  A=GUI  S=Alt  D=Ctrl  F=Shift
+         *   Right: J=Shift  K=Ctrl  L=Alt  ;=GUI
          */
         base_layer {
             label = "BASE";
             bindings = <
-&kp TAB    &kp Q         &kp W         &kp F          &kp P          &kp B          &kp J    &kp L          &kp U          &kp Y         &kp SEMI      &kp BSPC
-&kp ESC    &hml LGUI A   &hml LALT R   &hml LCTRL S   &hml LSHFT T   &kp G          &kp M    &hmr RSHFT N   &hmr RCTRL E   &hmr RALT I   &hmr RGUI O   &kp SQT
-&skq LSHFT  &kp Z         &kp X         &kp C          &kp D          &kp V          &kp K    &kp H          &kp COMMA      &kp DOT       &kp FSLH      &kp RSHFT
+&kp TAB    &kp Q         &kp W         &kp E          &kp R          &kp T          &kp Y    &kp U          &kp I          &kp O         &kp P          &kp BSPC
+&kp ESC    &kp A   &hml LALT S   &hml LCTRL D   &hml LSHFT F   &kp G          &kp H    &hmr RSHFT J   &hmr RCTRL K   &hmr RALT L   &hmr RGUI SEMI &kp SQT
+&skq LSHFT &kp Z         &kp X         &kp C          &kp V          &kp B          &kp N    &kp M          &kp COMMA      &kp DOT       &kp FSLH       &kp RSHFT
                                        &kp LEFT_GUI   &mo 2          &lt 4 SPACE    &kp RET  &mo 1          &kp RALT
             >;
         };
