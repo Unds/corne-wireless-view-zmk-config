@@ -6,137 +6,118 @@
  * OS: Windows
  * Use Cases: Gmail (shortcuts mode), Google Sheets, Adobe Acrobat, VS Code (Python/C++)
  * Features: Home Row Mods, One-handed navigation, App-specific shortcuts
- * 
+ *
  * Author Notes:
  * - Space on LEFT thumb for comfort
- * - Home row mods: GUI/Alt/Ctrl/Shift (GACS order)
- * - Beginner-friendly timing for smooth learning curve
- * - Numbers/symbols optimized for data entry and coding
+ * - Home row mods: GACS order (GUI/Alt/Ctrl/Shift) on Colemak home row
+ * - Timing tuned for urob helper pattern
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
+#include "zmk-helpers/helper.h"
+#include "zmk-helpers/key-labels/42.h"
+
+/* ──────────────────────────────────────────────────────────────
+ * Global timing settings
+ * ────────────────────────────────────────────────────────────── */
+#define QUICK_TAP_MS 175
+
+/* ──────────────────────────────────────────────────────────────
+ * Home Row Mod definitions using ZMK_BEHAVIOR
+ *
+ * Two flavors:
+ *   hml = left-hand HRM  (hold-preferred for same-hand combos)
+ *   hmr = right-hand HRM
+ *
+ * hold-trigger-key-positions restricts accidental activation:
+ *   left HRMs only trigger mods when right-hand keys are pressed,
+ *   and vice versa.
+ * ────────────────────────────────────────────────────────────── */
+
+// Left-hand keys (for right HRMs to reference)
+#define KEYS_L LT0 LT1 LT2 LT3 LT4 LT5 \
+               LM0 LM1 LM2 LM3 LM4 LM5 \
+               LB0 LB1 LB2 LB3 LB4 LB5
+
+// Right-hand keys (for left HRMs to reference)
+#define KEYS_R RT0 RT1 RT2 RT3 RT4 RT5 \
+               RM0 RM1 RM2 RM3 RM4 RM5 \
+               RB0 RB1 RB2 RB3 RB4 RB5
+
+// Thumb keys
+#define THUMBS LH2 LH1 LH0 RH0 RH1 RH2
+
+ZMK_BEHAVIOR(hml, hold_tap,
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+    require-prior-idle-ms = <150>;
+    bindings = <&kp>, <&kp>;
+    hold-trigger-key-positions = <KEYS_R THUMBS>;
+    hold-trigger-on-release;
+)
+
+ZMK_BEHAVIOR(hmr, hold_tap,
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+    require-prior-idle-ms = <150>;
+    bindings = <&kp>, <&kp>;
+    hold-trigger-key-positions = <KEYS_L THUMBS>;
+    hold-trigger-on-release;
+)
+
+/* ──────────────────────────────────────────────────────────────
+ * Sticky Shift (Caps Word helper)
+ * ────────────────────────────────────────────────────────────── */
+ZMK_BEHAVIOR(skq, sticky_key,
+    bindings = <&kp>;
+    release-after-ms = <1000>;
+    quick-release;
+)
+
+/* ──────────────────────────────────────────────────────────────
+ * Combos
+ * ────────────────────────────────────────────────────────────── */
+ZMK_COMBO(combo_esc,       &kp ESC,         LT1 LT2,     0)
+ZMK_COMBO(combo_tab,       &kp TAB,         LT2 LT3,     0)
+ZMK_COMBO(combo_caps_word, &caps_word,      LM3 RM3,     0)
+ZMK_COMBO(combo_del,       &kp DEL,         RT3 RT4,     0)
+ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
+
 / {
-    behaviors {
-        /*
-         * Home Row Mods - Optimized for beginners
-         * - 200ms hold time: comfortable for learning
-         * - require-prior-idle-ms: prevents accidental activation while fast typing
-         * - balanced flavor: best for mixed typing and shortcuts
-         */
-
-        hm: homerow_mods {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_MODS";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
-            flavor = "balanced";
-            bindings = <&kp>, <&kp>;
-        };
-
-        /*
-         * Shift on Caps Word - Sticky shift for typing CONSTANTS or SQL
-         */
-
-        skq: sticky_key_quick_release {
-            compatible = "zmk,behavior-sticky-key";
-            label = "STICKY_KEY_QUICK_RELEASE";
-            #binding-cells = <1>;
-            bindings = <&kp>;
-            release-after-ms = <1000>;
-            quick-release;
-        };
-    };
-
-    /*
-     * Combo Keys - Quick access without layer switching
-     * Useful for common shortcuts while keeping hands on home row
-     */
-
-    combos {
-        compatible = "zmk,combos";
-
-        // ESC: Q + W (top left corner for quick escape)
-
-        combo_esc {
-            timeout-ms = <50>;
-            key-positions = <1 2>;
-            bindings = <&kp ESC>;
-        };
-
-        // Tab: W + E (useful for Gmail 'g then i' workflow)
-
-        combo_tab {
-            timeout-ms = <50>;
-            key-positions = <2 3>;
-            bindings = <&kp TAB>;
-        };
-
-        // Caps Word: Both Shifts (F + J) - For typing SQL, CONSTANTS
-
-        combo_caps_word {
-            timeout-ms = <50>;
-            key-positions = <16 19>;
-            bindings = <&caps_word>;
-        };
-
-        // Delete: Backspace combo (O + P)
-
-        combo_del {
-            timeout-ms = <50>;
-            key-positions = <8 9>;
-            bindings = <&kp DEL>;
-        };
-
-        // Screenshot: Win + Shift + S (common on Windows)
-
-        combo_screenshot {
-            timeout-ms = <50>;
-            key-positions = <25 26>;
-            bindings = <&kp LG(LS(S))>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
         /*
          * ================================================================
-         * LAYER 0: BASE (QWERTY with Home Row Mods)
+         * LAYER 0: BASE (Colemak-DH with Home Row Mods)
          * ================================================================
-         * Primary layer for typing and Gmail shortcuts
-         * Home row mods: GUI(Win) / Alt / Ctrl / Shift on ASDF & JKL;
-         * Space on LEFT thumb for natural reach
+         * Home row mods (GACS): 
+         *   Left:  A=GUI  R=Alt  S=Ctrl  T=Shift
+         *   Right: N=Shift  E=Ctrl  I=Alt  O=GUI
          */
-
         base_layer {
             label = "BASE";
-            bindings = <
-&kp TAB    &kp Q  &kp W  &kp F         &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
-&kp ESC    &kp A  &kp R  &kp S         &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
-&kp LSHFT  &kp Z  &kp X  &kp C         &kp D  &kp V        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                         &kp LEFT_GUI  &mo 4  &kp SPACE    &kp RET  &mo 2  &kp RALT
+            bindings = 
+&kp TAB    &kp Q         &kp W         &kp F          &kp P          &kp B          &kp J    &kp L          &kp U          &kp Y         &kp SEMI      &kp BSPC
+&kp ESC    &hml LGUI A   &hml LALT R   &hml LCTRL S   &hml LSHFT T   &kp G          &kp M    &hmr RSHFT N   &hmr RCTRL E   &hmr RALT I   &hmr RGUI O   &kp SQT
+&skq LSHFT  &kp Z         &kp X         &kp C          &kp D          &kp V          &kp K    &kp H          &kp COMMA      &kp DOT       &kp FSLH      &kp RSHFT
+                                       &kp LEFT_GUI   &mo 2          &lt 4 SPACE    &kp RET  &mo 1          &kp RALT
             >;
         };
 
         /*
          * ================================================================
-         * LAYER 1: LOWER (Numbers, Symbols, Navigation)
+         * LAYER 1: NUM & SYMBOLS
          * ================================================================
-         * Accessed by holding LEFT thumb key (second position)
-         * Optimized for:
-         * - Number entry (Google Sheets data entry)
-         * - Common symbols and punctuation
-         * - One-handed arrow navigation on right side
          */
-
         NUM_SYMB {
             label = "NUM&SYM";
-            bindings = <
+            bindings = 
 &kp GRAVE     &kp N1           &kp N2    &kp N3    &kp N4     &kp N5               &kp N6     &kp N7                &kp N8                 &kp N9           &kp N0     &kp QUESTION
 &kp DOLLAR    &kp EXCLAMATION  &kp AT    &kp HASH  &kp DLLR   &kp PRCNT            &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LBKT         &kp RBKT   &kp COLON
 &kp ASTERISK  &kp BSLH         &kp PIPE  &kp SQT   &kp TILDE  &kp DOUBLE_QUOTES    &kp MINUS  &kp PLUS              &kp LEFT_BRACE         &kp RIGHT_BRACE  &kp MINUS  &kp N0
@@ -146,20 +127,14 @@
 
         /*
          * ================================================================
-         * LAYER 2: RAISE (Coding Symbols, Functions, Brackets)
+         * LAYER 2: NAV
          * ================================================================
-         * Accessed by holding RIGHT thumb key (second position)
-         * Optimized for:
-         * - Python/C++ coding (brackets, operators, underscores)
-         * - Function keys (F1-F12)
-         * - Media controls
          */
-
         NAV {
             label = "NAV";
-            bindings = <
-&kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &trans     &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
-&kp LC(A)    &kp LC(S)      &trans     &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
+            bindings = 
+&kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &none     &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
+&kp LC(A)    &kp LC(S)      &none     &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
 &kp LC(Z)    &kp LC(X)      &kp LC(C)  &kp LC(V)  &kp LT     &kp GT       &kp LS(TAB)   &kp TAB        &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)  &kp K_APP
                                        &trans     &mo 3      &trans       &kp DEL       &kp BACKSPACE  &kp ENTER
             >;
@@ -167,38 +142,31 @@
 
         /*
          * ================================================================
-         * LAYER 3: ADJUST (System, Shortcuts, Bluetooth)
+         * LAYER 3: FN & BT
          * ================================================================
-         * Accessed by holding BOTH thumb layer keys (Layer 1 + 2)
-         * Contains:
-         * - Gmail shortcuts (left side)
-         * - VS Code shortcuts (right side)
-         * - Bluetooth controls (top left)
-         * - System controls
          */
-
         FN_BT {
             label = "FUNC & BT";
-            bindings = <
-&trans  &kp F1   &kp F2   &kp F3           &kp F4          &kp F5             &bt BT_SEL 0  &bt BT_SEL 1      &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR    &kp C_VOLUME_UP
-&trans  &kp F6   &kp F7   &kp F8           &kp F9          &kp F10            &kp C_PREV    &kp C_PLAY_PAUSE  &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN  &trans
-&trans  &kp F11  &kp F12  &kp PRINTSCREEN  &kp SCROLLLOCK  &kp PAUSE_BREAK    &trans        &none             &none         &none         &none         &trans
+            bindings = 
+&none  &kp F1   &kp F2   &kp F3           &kp F4          &kp F5             &bt BT_SEL 0  &bt BT_SEL 1      &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR    &kp C_VOLUME_UP
+&none  &kp F6   &kp F7   &kp F8           &kp F9          &kp F10            &kp C_PREV    &kp C_PLAY_PAUSE  &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN  &none
+&none  &kp F11  &kp F12  &kp PRINTSCREEN  &kp SCROLLLOCK  &kp PAUSE_BREAK    &none        &none             &none         &none         &none         &none
                           &trans           &trans          &trans             &trans        &trans            &trans
             >;
         };
 
         /*
          * ================================================================
-         * LAYER 4: ADJUST (System, Shortcuts, Bluetooth)
+         * LAYER 4: NUMPAD
          * ================================================================
          */
-
         Numpad {
-            bindings = <
-&trans  &trans       &trans     &trans                &trans                 &trans        &trans     &kp N7  &kp N8           &kp N9  &kp BSPC  &trans
-&trans  &kp PLUS     &kp MINUS  &kp STAR              &kp FSLH               &kp EQUAL     &trans     &kp N4  &kp N5           &kp N6  &kp DOT   &trans
-&trans  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &trans     &kp N1  &kp N2           &kp N3  &kp RET   &trans
-                                &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &kp KP_NUMBER_0
+            Label = "Numpad";
+            bindings = 
+&none  &none        &none      &none                 &none                  &none         &kp N7    &kp N8  &kp N9  &kp BSPC  &none
+&none  &kp PLUS     &kp MINUS  &kp STAR              &kp FSLH               &kp EQUAL     &none     &kp N4  &kp N5  &kp N6  &kp DOT   &none
+&none  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &none     &kp N1  &kp N2  &kp N3  &kp RET   &none
+                                &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &kp N0
             >;
         };
     };
