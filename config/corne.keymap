@@ -187,6 +187,12 @@
             >;
         };
 
+        /*
+         * ================================================================
+         * LAYER 4: ADJUST (System, Shortcuts, Bluetooth)
+         * ================================================================
+         */
+
         Numpad {
             bindings = <
 &trans  &trans       &trans     &trans                &trans                 &trans        &trans     &kp N7  &kp N8           &kp N9  &kp BSPC  &trans
