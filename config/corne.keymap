@@ -106,7 +106,7 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
 &kp TAB    &kp Q         &kp W         &kp E          &kp R          &kp T          &kp Y    &kp U          &kp I          &kp O         &kp P          &kp BSPC
 &kp ESC    &kp A   &hml LALT S   &hml LCTRL D   &hml LSHFT F   &kp G          &kp H    &hmr RSHFT J   &hmr RCTRL K   &hmr RALT L   &hmr RGUI SEMI &kp SQT
 &skq LSHFT &kp Z         &kp X         &kp C          &kp V          &kp B          &kp N    &kp M          &kp COMMA      &kp DOT       &kp FSLH       &kp RSHFT
-                                       &kp LEFT_GUI   &mo 2          &lt 4 SPACE    &kp RET  &mo 1          &kp RALT
+                                       &kp LEFT_GUI   &mo 2          &lt 4 SPACE    &kp RET  &mo 1          &lt 3 RALT
             >;
         };
 
