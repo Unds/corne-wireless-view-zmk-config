@@ -168,6 +168,8 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
 &none  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &none      &kp N1  &kp N2  &kp N3    &kp RET  &none
                                 &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &trans
             >;
+        };
+
         /*
          * ================================================================
          * LAYER 5: ONE-HAND (toggle — right hand on mouse)
