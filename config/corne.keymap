@@ -103,8 +103,8 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
         base_layer {
             label = "BASE";
             bindings = <
-&kp TAB    &kp Q         &kp W         &kp E          &kp R          &kp T          &kp Y    &kp U          &kp I          &kp O         &kp P          &kp BSPC
-&kp ESC    &kp A   &hml LALT S   &hml LCTRL D   &hml LSHFT F   &kp G          &kp H    &hmr RSHFT J   &hmr RCTRL K   &hmr RALT L   &hmr RGUI SEMI &kp SQT
+&kp ESC    &kp Q         &kp W         &kp E          &kp R          &kp T          &kp Y    &kp U          &kp I          &kp O         &kp P          &kp BSPC
+&kp TAB    &kp A   &hml LALT S   &hml LCTRL D   &hml LSHFT F   &kp G          &kp H    &hmr RSHFT J   &hmr RCTRL K   &hmr RALT L   &hmr RGUI SEMI &kp SQT
 &skq LSHFT &kp Z         &kp X         &kp C          &kp V          &kp B          &kp N    &kp M          &kp COMMA      &kp DOT       &kp FSLH       &kp RSHFT
                                        &kp LEFT_GUI   &mo 2          &lt 4 SPACE    &kp RET  &mo 1          &lt 3 RALT
             >;
@@ -133,8 +133,8 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
         NAV {
             label = "NAV";
             bindings = <
-&kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &none     &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
-&kp LC(A)    &kp LC(S)      &none     &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
+&kp PAGE_UP  &kp PAGE_DOWN  &kp LC(W)  &tog 5    &kp LC(T)  &kp LC(Y)    &kp LS(HOME)  &kp HOME       &kp UP_ARROW  &kp END       &kp LS(END)    &kp INS
+&kp LC(A)    &kp LC(S)      &kp LA(TAB)  &kp LC(F)  &kp LBKT   &kp RBKT     &kp LC(LEFT)  &kp LEFT       &kp DOWN      &kp RIGHT     &kp LC(RIGHT)  &kp LS(UP_ARROW)
 &kp LC(Z)    &kp LC(X)      &kp LC(C)  &kp LC(V)  &kp LT     &kp GT       &kp LS(TAB)   &kp TAB        &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)  &kp K_APP
                                        &trans     &mo 3      &trans       &kp DEL       &kp BACKSPACE  &kp ENTER
             >;
@@ -167,6 +167,25 @@ ZMK_COMBO(combo_screenshot,&kp LG(LS(S)),   LB3 LB4,     0)
 &none  &kp PLUS     &kp MINUS  &kp STAR              &kp FSLH               &kp EQUAL     &none      &kp N4  &kp N5  &kp N6    &kp DOT  &none
 &none  &kp PERCENT  &kp CARET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PERIOD    &none      &kp N1  &kp N2  &kp N3    &kp RET  &none
                                 &trans                &trans                 &kp SPACE     &kp ENTER  &kp N0  &trans
+            >;
+        /*
+         * ================================================================
+         * LAYER 5: ONE-HAND (toggle — right hand on mouse)
+         * ================================================================
+         * Activate: NAV + R  |  Exit: middle thumb (tog 5)
+         *
+         *   Row 1:  ESC   Home  Up    End   PgUp  PgDn
+         *   Row 2:  Tab   Left  Down  Right Bspc  Del
+         *   Row 3:  Shft  C-z   C-x   C-c   C-v   Ent
+         *   Thumb:  GUI  [exit] Spc
+         */
+        ONE_HAND {
+            label = "ONE-HAND";
+            bindings = <
+&kp ESC    &kp HOME   &kp UP     &kp END    &kp PG_UP  &kp PG_DN    &none  &none  &none  &none  &none  &none
+&kp TAB    &kp LEFT   &kp DOWN   &kp RIGHT  &kp BSPC   &kp DEL      &none  &none  &none  &none  &none  &none
+&kp LSHFT  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp RET      &none  &none  &none  &none  &none  &none
+                                  &kp LGUI   &tog 5     &kp SPACE    &none  &none  &none
             >;
         };
     };
