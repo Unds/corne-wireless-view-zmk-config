@@ -120,10 +120,10 @@ ZMK_COMBO(combo_maple,      &tog 7,         LH1 RH1,     0)
         NUM_SYMB {
             label = "NUM&SYM";
             bindings = <
-&kp GRAVE     &kp N1           &kp N2    &kp N3    &kp N4     &kp N5               &kp N6     &kp N7                &kp N8                 &kp N9           &kp N0     &kp QUESTION
+&kp GRAVE     &kp N1           &kp N2    &kp N3    &kp N4     &kp N5               &kp N6     &kp N7                &kp N8                 &kp N9           &kp N0     &kp BSPC
 &kp AMPS      &kp EXCLAMATION  &kp AT    &kp HASH  &kp DLLR   &kp PRCNT            &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LBKT         &kp RBKT   &kp COLON
-&kp ASTERISK  &kp BSLH         &kp PIPE  &kp SQT   &kp TILDE  &kp DOUBLE_QUOTES    &kp MINUS  &kp PLUS              &kp LEFT_BRACE         &kp RIGHT_BRACE  &kp UNDER  &trans
-                                         &caps_word  &trans     &trans               &trans     &mo 3                 &trans
+&kp ASTERISK  &kp BSLH         &kp PIPE  &kp SQT   &kp TILDE  &kp DOUBLE_QUOTES    &kp MINUS  &kp PLUS              &kp LEFT_BRACE         &kp RIGHT_BRACE  &kp UNDER  &kp QUESTION
+                                         &kp CAPS &trans     &trans               &trans     &mo 3                 &trans
             >;
         };
 
