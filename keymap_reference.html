@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corne Keymap Reference</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3352;
+    --accent: #7b93ff;
+    --accent2: #a78bfa;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --cyan: #22d3ee;
+    --orange: #fb923c;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --key-bg: #1e2235;
+    --key-border: #3a4060;
+    --key-text: #e2e8f0;
+    --key-hold: #a78bfa;
+    --key-mod: #22d3ee;
+    --key-nav: #4ade80;
+    --key-fn: #fbbf24;
+    --key-bt: #f87171;
+    --key-empty: #111420;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-meta {
+    margin-left: auto;
+    text-align: right;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .header-meta span {
+    display: inline-block;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 1px;
+    font-size: 0.75rem;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .tab {
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.15s;
+    position: relative;
+    bottom: -1px;
+  }
+
+  .tab:hover { color: var(--text); background: var(--bg2); }
+
+  .tab.active {
+    background: var(--bg2);
+    border-color: var(--border);
+    border-bottom-color: var(--bg2);
+    color: var(--accent);
+  }
+
+  .tab-badge {
+    display: inline-block;
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 0 6px;
+    font-size: 0.7rem;
+    margin-left: 4px;
+    color: var(--muted);
+  }
+
+  .tab.active .tab-badge { color: var(--accent); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Layer description ── */
+  .layer-desc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .layer-badge {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--accent);
+  }
+
+  .layer-desc p { color: var(--muted); font-size: 0.85rem; }
+
+  .layer-desc .access {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .access-pill {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: var(--cyan);
+  }
+
+  /* ── Keyboard ── */
+  .keyboard-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .keyboard {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 680px;
+  }
+
+  .kb-row {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .kb-gap { width: 20px; flex-shrink: 0; }
+
+  .key {
+    width: 52px;
+    min-height: 52px;
+    background: var(--key-bg);
+    border: 1px solid var(--key-border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 4px;
+    position: relative;
+    transition: border-color 0.15s;
+    cursor: default;
+    flex-shrink: 0;
+  }
+
+  .key:hover { border-color: var(--accent); }
+
+  .key.empty {
+    background: var(--key-empty);
+    border-color: #1a1d27;
+    opacity: 0.5;
+  }
+
+  .key .tap {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--key-text);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .key .hold {
+    font-size: 0.6rem;
+    color: var(--key-hold);
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  /* Key color variants */
+  .key.mod-gui   { border-color: #4f6ef7; }
+  .key.mod-alt   { border-color: #8b5cf6; }
+  .key.mod-ctrl  { border-color: #06b6d4; }
+  .key.mod-shft  { border-color: #10b981; }
+
+  .key.special   { border-color: #475569; background: #181c2e; }
+  .key.layer-key { border-color: var(--accent); background: #1a1f38; }
+  .key.layer-key .tap { color: var(--accent); }
+
+  .key.nav-key { border-color: #10b981; }
+  .key.nav-key .tap { color: var(--green); }
+
+  .key.fn-key { border-color: #f59e0b; }
+  .key.fn-key .tap { color: var(--yellow); }
+
+  .key.bt-key { border-color: #ef4444; }
+  .key.bt-key .tap { color: var(--red); }
+
+  .key.media-key { border-color: #8b5cf6; }
+  .key.media-key .tap { color: var(--accent2); }
+
+  .key.toggle-key { border-color: #fb923c; }
+  .key.toggle-key .tap { color: var(--orange); font-size: 0.65rem; }
+
+  .key.combo-hint { outline: 2px dashed #fbbf24; outline-offset: -2px; }
+
+  /* Thumb row */
+  .kb-thumbs {
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+  }
+
+  .kb-thumbs-left, .kb-thumbs-right {
+    display: flex;
+    gap: 5px;
+  }
+
+  .key.thumb {
+    width: 64px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: var(--bg3); }
+
+  .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  .tag-blue  { background: #1e3a8a22; border-color: #3b82f6; color: #93c5fd; }
+  .tag-green { background: #14532d22; border-color: #22c55e; color: #86efac; }
+  .tag-yellow{ background: #78350f22; border-color: #f59e0b; color: #fcd34d; }
+  .tag-purple{ background: #4c1d9522; border-color: #8b5cf6; color: #c4b5fd; }
+  .tag-red   { background: #7f1d1d22; border-color: #ef4444; color: #fca5a5; }
+  .tag-cyan  { background: #164e6322; border-color: #06b6d4; color: #67e8f9; }
+
+  kbd {
+    display: inline-block;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  /* ── HRM tooltip-style display ── */
+  .hrm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .hrm-hand {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .hrm-hand h4 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .hrm-key-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+  }
+
+  .hrm-key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--key-bg);
+    border: 1px solid var(--key-border);
+    border-radius: 5px;
+    padding: 5px 8px;
+    min-width: 44px;
+  }
+
+  .hrm-key .k-tap { font-weight: 700; font-size: 0.85rem; }
+  .hrm-key .k-mod { font-size: 0.6rem; margin-top: 2px; }
+
+  .hrm-key.gui   { border-color: #4f6ef7; }
+  .hrm-key.gui   .k-mod { color: #7b93ff; }
+  .hrm-key.alt   { border-color: #8b5cf6; }
+  .hrm-key.alt   .k-mod { color: #a78bfa; }
+  .hrm-key.ctrl  { border-color: #06b6d4; }
+  .hrm-key.ctrl  .k-mod { color: #22d3ee; }
+  .hrm-key.shft  { border-color: #10b981; }
+  .hrm-key.shft  .k-mod { color: #4ade80; }
+
+  /* ── Config section ── */
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .config-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .config-card h4 {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .config-val {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .config-note {
+    font-size: 0.73rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hrm-grid { grid-template-columns: 1fr; }
+    header { flex-wrap: wrap; }
+    .header-meta { margin-left: 0; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">⌨️</div>
+  <div>
+    <h1>Corne Keymap Reference</h1>
+    <div style="color:var(--muted);font-size:0.8rem;margin-top:2px;">Colemak-DH · 9 Layers · Home Row Mods</div>
+  </div>
+  <div class="header-meta">
+    <span>nice!nano v2</span>
+    <span>nice!view</span>
+    <span>ZMK v0.3.0</span>
+    <span>Windows</span>
+    <br>
+    <span>urob/zmk-helpers v0.3.0</span>
+    <span>ZMK Studio enabled</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Layer Tabs -->
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-panel="base">Base <span class="tab-badge">L0</span></button>
+    <button class="tab" data-panel="numsym">Num/Sym <span class="tab-badge">L1</span></button>
+    <button class="tab" data-panel="nav">Nav <span class="tab-badge">L2</span></button>
+    <button class="tab" data-panel="fn">Fn/BT <span class="tab-badge">L3</span></button>
+    <button class="tab" data-panel="numpad">Numpad <span class="tab-badge">L4</span></button>
+    <button class="tab" data-panel="onehand">One-Hand <span class="tab-badge">L5</span></button>
+    <button class="tab" data-panel="qwerty">QWERTY <span class="tab-badge">L6</span></button>
+    <button class="tab" data-panel="maple">MapleStory <span class="tab-badge">L7</span></button>
+    <button class="tab" data-panel="clean">CMK-Clean <span class="tab-badge">L8</span></button>
+    <button class="tab" data-panel="combos">Combos</button>
+    <button class="tab" data-panel="settings">Settings</button>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 0 ══ -->
+  <div class="panel active" id="panel-base">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 0 — BASE</div>
+        <div class="access">
+          <span class="access-pill">Default layer</span>
+        </div>
+      </div>
+      <p>Colemak-DH with balanced home row mods (GACS order). Left shift is sticky — tap once to shift the next key. Same-hand guard prevents accidental modifier activation.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <!-- Row 1 -->
+        <div class="kb-row">
+          <div class="key special"><span class="tap">ESC</span></div>
+          <div class="key"><span class="tap">Q</span></div>
+          <div class="key"><span class="tap">W</span></div>
+          <div class="key"><span class="tap">F</span></div>
+          <div class="key"><span class="tap">P</span></div>
+          <div class="key"><span class="tap">B</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">J</span></div>
+          <div class="key"><span class="tap">L</span></div>
+          <div class="key"><span class="tap">U</span></div>
+          <div class="key"><span class="tap">Y</span></div>
+          <div class="key"><span class="tap">;</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <!-- Row 2 -->
+        <div class="kb-row">
+          <div class="key special"><span class="tap">TAB</span></div>
+          <div class="key mod-gui"><span class="tap">A</span><span class="hold">GUI</span></div>
+          <div class="key mod-alt"><span class="tap">R</span><span class="hold">Alt</span></div>
+          <div class="key mod-ctrl"><span class="tap">S</span><span class="hold">Ctrl</span></div>
+          <div class="key mod-shft"><span class="tap">T</span><span class="hold">Shift</span></div>
+          <div class="key"><span class="tap">G</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">M</span></div>
+          <div class="key mod-shft"><span class="tap">N</span><span class="hold">Shift</span></div>
+          <div class="key mod-ctrl"><span class="tap">E</span><span class="hold">Ctrl</span></div>
+          <div class="key mod-alt"><span class="tap">I</span><span class="hold">Alt</span></div>
+          <div class="key mod-gui"><span class="tap">O</span><span class="hold">GUI</span></div>
+          <div class="key"><span class="tap">'</span></div>
+        </div>
+        <!-- Row 3 -->
+        <div class="kb-row">
+          <div class="key special" style="border-color:#10b981"><span class="tap" style="font-size:0.65rem">SHFT*</span></div>
+          <div class="key combo-hint"><span class="tap">Z</span></div>
+          <div class="key combo-hint"><span class="tap">X</span></div>
+          <div class="key"><span class="tap">C</span></div>
+          <div class="key"><span class="tap">D</span></div>
+          <div class="key combo-hint"><span class="tap">V</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">K</span></div>
+          <div class="key"><span class="tap">H</span></div>
+          <div class="key"><span class="tap">,</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="key"><span class="tap">/</span></div>
+          <div class="key special"><span class="tap">RSHFT</span></div>
+        </div>
+        <!-- Thumbs -->
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">GUI</span></div>
+            <div class="key thumb layer-key"><span class="tap">NAV</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">SPC</span><span class="hold">Numpad</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb special"><span class="tap">ENT</span></div>
+            <div class="key thumb layer-key"><span class="tap">SYM</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">RAlt</span><span class="hold">FN/BT</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#4f6ef722;border-color:#4f6ef7"></div> GUI hold</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#8b5cf622;border-color:#8b5cf6"></div> Alt hold</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#06b6d422;border-color:#06b6d4"></div> Ctrl hold</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#10b98122;border-color:#10b981"></div> Shift hold</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#7b93ff22;border-color:#7b93ff"></div> Layer access</div>
+      <div class="legend-item"><div class="legend-swatch" style="border-color:#fbbf24;border-style:dashed"></div> Combo key</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Home Row Mods — GACS Order</div>
+      <div class="hrm-grid">
+        <div class="hrm-hand">
+          <h4>Left Hand</h4>
+          <div class="hrm-key-row">
+            <div class="hrm-key gui"><span class="k-tap">A</span><span class="k-mod">GUI</span></div>
+            <div class="hrm-key alt"><span class="k-tap">R</span><span class="k-mod">Alt</span></div>
+            <div class="hrm-key ctrl"><span class="k-tap">S</span><span class="k-mod">Ctrl</span></div>
+            <div class="hrm-key shft"><span class="k-tap">T</span><span class="k-mod">Shift</span></div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Only fire when right-hand keys are pressed simultaneously (cross-hand guard)</p>
+        </div>
+        <div class="hrm-hand">
+          <h4>Right Hand</h4>
+          <div class="hrm-key-row">
+            <div class="hrm-key shft"><span class="k-tap">N</span><span class="k-mod">Shift</span></div>
+            <div class="hrm-key ctrl"><span class="k-tap">E</span><span class="k-mod">Ctrl</span></div>
+            <div class="hrm-key alt"><span class="k-tap">I</span><span class="k-mod">Alt</span></div>
+            <div class="hrm-key gui"><span class="k-tap">O</span><span class="k-mod">GUI</span></div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Only fire when left-hand keys are pressed simultaneously (cross-hand guard)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">HRM Timing</div>
+      <div class="config-grid">
+        <div class="config-card">
+          <h4>Tapping Term</h4>
+          <div class="config-val">280 ms</div>
+          <div class="config-note">Hold longer than this → modifier fires</div>
+        </div>
+        <div class="config-card">
+          <h4>Quick-Tap</h4>
+          <div class="config-val">175 ms</div>
+          <div class="config-note">Fast double-tap repeats the letter, not the mod</div>
+        </div>
+        <div class="config-card">
+          <h4>Require-Prior-Idle</h4>
+          <div class="config-val">150 ms</div>
+          <div class="config-note">Key must be idle this long before HRM activates</div>
+        </div>
+        <div class="config-card">
+          <h4>Flavor</h4>
+          <div class="config-val" style="font-size:0.85rem">Balanced</div>
+          <div class="config-note">Mod fires on key release or when another key is pressed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 1 ══ -->
+  <div class="panel" id="panel-numsym">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 1 — NUM &amp; SYMBOLS</div>
+        <div class="access">
+          <span class="access-pill">Hold right-middle thumb (SYM)</span>
+          <span class="access-pill">SYM + middle-right → FN/BT</span>
+        </div>
+      </div>
+      <p>Numbers across the top row, mathematical and programming symbols throughout. Caps Lock on left thumb.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key"><span class="tap">`</span></div>
+          <div class="key fn-key"><span class="tap">1</span></div>
+          <div class="key fn-key"><span class="tap">2</span></div>
+          <div class="key fn-key"><span class="tap">3</span></div>
+          <div class="key fn-key"><span class="tap">4</span></div>
+          <div class="key fn-key"><span class="tap">5</span></div>
+          <div class="kb-gap"></div>
+          <div class="key fn-key"><span class="tap">6</span></div>
+          <div class="key fn-key"><span class="tap">7</span></div>
+          <div class="key fn-key"><span class="tap">8</span></div>
+          <div class="key fn-key"><span class="tap">9</span></div>
+          <div class="key fn-key"><span class="tap">0</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key"><span class="tap">&amp;</span></div>
+          <div class="key"><span class="tap">!</span></div>
+          <div class="key"><span class="tap">@</span></div>
+          <div class="key"><span class="tap">#</span></div>
+          <div class="key"><span class="tap">$</span></div>
+          <div class="key"><span class="tap">%</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">=</span></div>
+          <div class="key"><span class="tap">(</span></div>
+          <div class="key"><span class="tap">)</span></div>
+          <div class="key"><span class="tap">[</span></div>
+          <div class="key"><span class="tap">]</span></div>
+          <div class="key"><span class="tap">:</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key"><span class="tap">*</span></div>
+          <div class="key"><span class="tap">\</span></div>
+          <div class="key"><span class="tap">|</span></div>
+          <div class="key"><span class="tap">'</span></div>
+          <div class="key"><span class="tap">~</span></div>
+          <div class="key"><span class="tap">"</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">-</span></div>
+          <div class="key"><span class="tap">+</span></div>
+          <div class="key"><span class="tap">{</span></div>
+          <div class="key"><span class="tap">}</span></div>
+          <div class="key"><span class="tap">_</span></div>
+          <div class="key"><span class="tap">?</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">CAPS</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb layer-key"><span class="tap">[held]</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 2 ══ -->
+  <div class="panel" id="panel-nav">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 2 — NAV</div>
+        <div class="access">
+          <span class="access-pill">Hold left-middle thumb (NAV)</span>
+          <span class="access-pill">NAV + W → toggle One-Hand</span>
+        </div>
+      </div>
+      <p>Navigation and Windows productivity shortcuts. Right side has arrow cluster with word/select variants. Left side has common Ctrl shortcuts and browser/tab management.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">PgUp</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">PgDn</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+W</span></div>
+          <div class="key toggle-key"><span class="tap">1HAND</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+T</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+Y</span></div>
+          <div class="kb-gap"></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧Home</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Home</span></div>
+          <div class="key nav-key"><span class="tap">↑</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">End</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧End</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ins</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+A</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+S</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Alt+Tab</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+F</span></div>
+          <div class="key"><span class="tap">[</span></div>
+          <div class="key"><span class="tap">]</span></div>
+          <div class="kb-gap"></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">C←</span></div>
+          <div class="key nav-key"><span class="tap">←</span></div>
+          <div class="key nav-key"><span class="tap">↓</span></div>
+          <div class="key nav-key"><span class="tap">→</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">C→</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧↑</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+Z</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+X</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+C</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+V</span></div>
+          <div class="key"><span class="tap">&lt;</span></div>
+          <div class="key"><span class="tap">&gt;</span></div>
+          <div class="kb-gap"></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧Tab</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Tab</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧←</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧↓</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">⇧→</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">APP</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb layer-key"><span class="tap">[held]</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb nav-key"><span class="tap">DEL</span></div>
+            <div class="key thumb nav-key"><span class="tap">BSPC</span></div>
+            <div class="key thumb nav-key"><span class="tap">ENT</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Quick Reference — Left Side Shortcuts</div>
+      <table>
+        <tr><th>Key</th><th>Action</th></tr>
+        <tr><td><kbd>PgUp</kbd> / <kbd>PgDn</kbd></td><td>Page Up / Page Down</td></tr>
+        <tr><td><kbd>Ctrl+W</kbd></td><td>Close tab/window</td></tr>
+        <tr><td><kbd>Ctrl+T</kbd></td><td>New tab</td></tr>
+        <tr><td><kbd>Ctrl+Y</kbd></td><td>Redo</td></tr>
+        <tr><td><kbd>Ctrl+A</kbd></td><td>Select all</td></tr>
+        <tr><td><kbd>Ctrl+S</kbd></td><td>Save</td></tr>
+        <tr><td><kbd>Alt+Tab</kbd></td><td>Switch windows</td></tr>
+        <tr><td><kbd>Ctrl+F</kbd></td><td>Find</td></tr>
+        <tr><td><kbd>Ctrl+Z/X/C/V</kbd></td><td>Undo / Cut / Copy / Paste</td></tr>
+        <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Brackets (pass-through)</td></tr>
+        <tr><td><kbd>&lt;</kbd> <kbd>&gt;</kbd></td><td>Angle brackets (pass-through)</td></tr>
+        <tr><td><kbd>1HAND</kbd></td><td>Toggle One-Hand layer (L5)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 3 ══ -->
+  <div class="panel" id="panel-fn">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 3 — FN &amp; BT</div>
+        <div class="access">
+          <span class="access-pill">Hold right-outer thumb (RAlt)</span>
+          <span class="access-pill">NAV + middle-right thumb</span>
+          <span class="access-pill">SYM + middle-right thumb</span>
+        </div>
+      </div>
+      <p>Function keys F1–F12, Bluetooth profile management, media controls, and layer toggles for QWERTY / MapleStory / Colemak-Clean.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key fn-key"><span class="tap">F1</span></div>
+          <div class="key fn-key"><span class="tap">F2</span></div>
+          <div class="key fn-key"><span class="tap">F3</span></div>
+          <div class="key fn-key"><span class="tap">F4</span></div>
+          <div class="key fn-key"><span class="tap">F5</span></div>
+          <div class="kb-gap"></div>
+          <div class="key bt-key"><span class="tap" style="font-size:0.65rem">BT 0</span></div>
+          <div class="key bt-key"><span class="tap" style="font-size:0.65rem">BT 1</span></div>
+          <div class="key bt-key"><span class="tap" style="font-size:0.65rem">BT 2</span></div>
+          <div class="key bt-key"><span class="tap" style="font-size:0.65rem">BT 3</span></div>
+          <div class="key bt-key" style="border-color:#dc2626"><span class="tap" style="font-size:0.65rem;color:#f87171">BT CLR</span></div>
+          <div class="key media-key"><span class="tap" style="font-size:0.65rem">Vol+</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap" style="font-size:0.65rem">CAPS</span></div>
+          <div class="key fn-key"><span class="tap">F6</span></div>
+          <div class="key fn-key"><span class="tap">F7</span></div>
+          <div class="key fn-key"><span class="tap">F8</span></div>
+          <div class="key fn-key"><span class="tap">F9</span></div>
+          <div class="key fn-key"><span class="tap">F10</span></div>
+          <div class="kb-gap"></div>
+          <div class="key media-key"><span class="tap">⏮</span></div>
+          <div class="key media-key"><span class="tap">⏯</span></div>
+          <div class="key media-key"><span class="tap">⏭</span></div>
+          <div class="key media-key"><span class="tap">🔇</span></div>
+          <div class="key media-key"><span class="tap" style="font-size:0.65rem">Vol-</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key toggle-key"><span class="tap" style="font-size:0.6rem">QWERTY</span></div>
+          <div class="key fn-key"><span class="tap">F11</span></div>
+          <div class="key fn-key"><span class="tap">F12</span></div>
+          <div class="key special"><span class="tap" style="font-size:0.6rem">PrtSc</span></div>
+          <div class="key special"><span class="tap" style="font-size:0.6rem">ScLk</span></div>
+          <div class="key special"><span class="tap" style="font-size:0.6rem">Pause</span></div>
+          <div class="kb-gap"></div>
+          <div class="key toggle-key"><span class="tap" style="font-size:0.6rem">MAPLE</span></div>
+          <div class="key toggle-key"><span class="tap" style="font-size:0.6rem">CMK-CLN</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key special"><span class="tap" style="font-size:0.55rem">GUI+Spc</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb layer-key"><span class="tap">[held]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Bluetooth Profiles</div>
+      <table>
+        <tr><th>Key</th><th>Action</th></tr>
+        <tr><td><span class="tag tag-blue">BT 0</span> – <span class="tag tag-blue">BT 3</span></td><td>Switch to Bluetooth profile 0–3</td></tr>
+        <tr><td><span class="tag tag-red">BT CLR</span></td><td>Clear / unpair the currently selected Bluetooth profile</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Layer Toggles</div>
+      <table>
+        <tr><th>Key</th><th>Toggles</th></tr>
+        <tr><td><span class="tag tag-yellow">QWERTY</span></td><td>Layer 6 — QWERTY layout</td></tr>
+        <tr><td><span class="tag tag-yellow">MAPLE</span></td><td>Layer 7 — MapleStory game layout</td></tr>
+        <tr><td><span class="tag tag-yellow">CMK-CLN</span></td><td>Layer 8 — Colemak-DH Clean (no HRMs)</td></tr>
+        <tr><td><kbd>GUI+Space</kbd></td><td>Windows language / input method switch</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 4 ══ -->
+  <div class="panel" id="panel-numpad">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 4 — NUMPAD</div>
+        <div class="access">
+          <span class="access-pill">Hold left-inner thumb (Space → Numpad)</span>
+        </div>
+      </div>
+      <p>Traditional numpad layout on the right side. Math operators on the left side for one-hand numeric entry.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="kb-gap"></div>
+          <div class="key fn-key"><span class="tap">7</span></div>
+          <div class="key fn-key"><span class="tap">8</span></div>
+          <div class="key fn-key"><span class="tap">9</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key"><span class="tap">+</span></div>
+          <div class="key"><span class="tap">-</span></div>
+          <div class="key"><span class="tap">*</span></div>
+          <div class="key"><span class="tap">/</span></div>
+          <div class="key"><span class="tap">=</span></div>
+          <div class="kb-gap"></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key fn-key"><span class="tap">4</span></div>
+          <div class="key fn-key"><span class="tap">5</span></div>
+          <div class="key fn-key"><span class="tap">6</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key"><span class="tap">%</span></div>
+          <div class="key"><span class="tap">^</span></div>
+          <div class="key"><span class="tap">(</span></div>
+          <div class="key"><span class="tap">)</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="kb-gap"></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key fn-key"><span class="tap">1</span></div>
+          <div class="key fn-key"><span class="tap">2</span></div>
+          <div class="key fn-key"><span class="tap">3</span></div>
+          <div class="key special"><span class="tap">ENT</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb layer-key"><span class="tap">[held]</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb special"><span class="tap">ENT</span></div>
+            <div class="key thumb fn-key"><span class="tap">0</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 5 ══ -->
+  <div class="panel" id="panel-onehand">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 5 — ONE-HAND</div>
+        <div class="access">
+          <span class="access-pill">NAV + W (Ctrl+W key position) → toggle on</span>
+          <span class="access-pill">Left-middle thumb → toggle off</span>
+        </div>
+      </div>
+      <p>Right hand on mouse mode. Full navigation accessible with only left hand. Press the middle left thumb to exit.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key special"><span class="tap">ESC</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.65rem">Home</span></div>
+          <div class="key nav-key"><span class="tap">↑</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.65rem">End</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.65rem">PgUp</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.65rem">PgDn</span></div>
+          <div class="kb-gap"></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key nav-key"><span class="tap">BSPC</span></div>
+          <div class="key nav-key"><span class="tap">DEL</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">TAB</span></div>
+          <div class="key nav-key"><span class="tap">←</span></div>
+          <div class="key nav-key"><span class="tap">↓</span></div>
+          <div class="key nav-key"><span class="tap">→</span></div>
+          <div class="key nav-key"><span class="tap">BSPC</span></div>
+          <div class="key nav-key"><span class="tap">DEL</span></div>
+          <div class="kb-gap"></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key nav-key"><span class="tap">ENT</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">SHFT</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+Z</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+X</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+C</span></div>
+          <div class="key nav-key"><span class="tap" style="font-size:0.6rem">Ctrl+V</span></div>
+          <div class="key nav-key"><span class="tap">ENT</span></div>
+          <div class="kb-gap"></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+          <div class="key empty"><span class="tap">—</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">GUI</span></div>
+            <div class="key thumb toggle-key"><span class="tap">EXIT</span></div>
+            <div class="key thumb special"><span class="tap">SPC</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 6 ══ -->
+  <div class="panel" id="panel-qwerty">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 6 — QWERTY</div>
+        <div class="access">
+          <span class="access-pill">FN/BT → bottom-left key toggle</span>
+        </div>
+      </div>
+      <p>Alternative QWERTY layout with the same GACS home row mods as the base Colemak-DH layer. Toggle on/off from the FN/BT layer.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key special"><span class="tap">ESC</span></div>
+          <div class="key"><span class="tap">Q</span></div>
+          <div class="key"><span class="tap">W</span></div>
+          <div class="key"><span class="tap">E</span></div>
+          <div class="key"><span class="tap">R</span></div>
+          <div class="key"><span class="tap">T</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">Y</span></div>
+          <div class="key"><span class="tap">U</span></div>
+          <div class="key"><span class="tap">I</span></div>
+          <div class="key"><span class="tap">O</span></div>
+          <div class="key"><span class="tap">P</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">TAB</span></div>
+          <div class="key mod-gui"><span class="tap">A</span><span class="hold">GUI</span></div>
+          <div class="key mod-alt"><span class="tap">S</span><span class="hold">Alt</span></div>
+          <div class="key mod-ctrl"><span class="tap">D</span><span class="hold">Ctrl</span></div>
+          <div class="key mod-shft"><span class="tap">F</span><span class="hold">Shift</span></div>
+          <div class="key"><span class="tap">G</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">H</span></div>
+          <div class="key mod-shft"><span class="tap">J</span><span class="hold">Shift</span></div>
+          <div class="key mod-ctrl"><span class="tap">K</span><span class="hold">Ctrl</span></div>
+          <div class="key mod-alt"><span class="tap">L</span><span class="hold">Alt</span></div>
+          <div class="key mod-gui"><span class="tap">;</span><span class="hold">GUI</span></div>
+          <div class="key"><span class="tap">'</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special" style="border-color:#10b981"><span class="tap" style="font-size:0.65rem">SHFT*</span></div>
+          <div class="key"><span class="tap">Z</span></div>
+          <div class="key"><span class="tap">X</span></div>
+          <div class="key"><span class="tap">C</span></div>
+          <div class="key"><span class="tap">V</span></div>
+          <div class="key"><span class="tap">B</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">N</span></div>
+          <div class="key"><span class="tap">M</span></div>
+          <div class="key"><span class="tap">,</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="key"><span class="tap">/</span></div>
+          <div class="key special"><span class="tap">RSHFT</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">GUI</span></div>
+            <div class="key thumb layer-key"><span class="tap">NAV</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">SPC</span><span class="hold">Numpad</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb special"><span class="tap">ENT</span></div>
+            <div class="key thumb layer-key"><span class="tap">SYM</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">RAlt</span><span class="hold">FN/BT</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">QWERTY Home Row Mods</div>
+      <div class="hrm-grid">
+        <div class="hrm-hand">
+          <h4>Left Hand</h4>
+          <div class="hrm-key-row">
+            <div class="hrm-key gui"><span class="k-tap">A</span><span class="k-mod">GUI</span></div>
+            <div class="hrm-key alt"><span class="k-tap">S</span><span class="k-mod">Alt</span></div>
+            <div class="hrm-key ctrl"><span class="k-tap">D</span><span class="k-mod">Ctrl</span></div>
+            <div class="hrm-key shft"><span class="k-tap">F</span><span class="k-mod">Shift</span></div>
+          </div>
+        </div>
+        <div class="hrm-hand">
+          <h4>Right Hand</h4>
+          <div class="hrm-key-row">
+            <div class="hrm-key shft"><span class="k-tap">J</span><span class="k-mod">Shift</span></div>
+            <div class="hrm-key ctrl"><span class="k-tap">K</span><span class="k-mod">Ctrl</span></div>
+            <div class="hrm-key alt"><span class="k-tap">L</span><span class="k-mod">Alt</span></div>
+            <div class="hrm-key gui"><span class="k-tap">;</span><span class="k-mod">GUI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 7 ══ -->
+  <div class="panel" id="panel-maple">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 7 — MAPLESTORY</div>
+        <div class="access">
+          <span class="access-pill">FN/BT → MAPLE toggle</span>
+          <span class="access-pill">Left-middle + Right-middle thumbs combo</span>
+        </div>
+      </div>
+      <p>Game-optimized layout for MapleStory. Arrow keys available via right side of home row. Jump = Left Alt, Attack = Left Ctrl. Exit by pressing MAPLE again from FN/BT.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key special"><span class="tap">ESC</span></div>
+          <div class="key"><span class="tap">Q</span></div>
+          <div class="key"><span class="tap">W</span></div>
+          <div class="key"><span class="tap">E</span></div>
+          <div class="key"><span class="tap">R</span></div>
+          <div class="key"><span class="tap">T</span></div>
+          <div class="kb-gap"></div>
+          <div class="key fn-key"><span class="tap">1</span></div>
+          <div class="key fn-key"><span class="tap">2</span></div>
+          <div class="key nav-key"><span class="tap">↑</span></div>
+          <div class="key fn-key"><span class="tap">4</span></div>
+          <div class="key fn-key"><span class="tap">5</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">TAB</span></div>
+          <div class="key"><span class="tap">A</span></div>
+          <div class="key"><span class="tap">S</span></div>
+          <div class="key"><span class="tap">D</span></div>
+          <div class="key"><span class="tap">F</span></div>
+          <div class="key"><span class="tap">G</span></div>
+          <div class="kb-gap"></div>
+          <div class="key fn-key"><span class="tap">6</span></div>
+          <div class="key nav-key"><span class="tap">←</span></div>
+          <div class="key nav-key"><span class="tap">↓</span></div>
+          <div class="key nav-key"><span class="tap">→</span></div>
+          <div class="key fn-key"><span class="tap">0</span></div>
+          <div class="key special"><span class="tap">ENT</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">SHFT</span></div>
+          <div class="key"><span class="tap">Z</span></div>
+          <div class="key"><span class="tap">X</span></div>
+          <div class="key"><span class="tap">C</span></div>
+          <div class="key"><span class="tap">V</span></div>
+          <div class="key"><span class="tap">B</span></div>
+          <div class="kb-gap"></div>
+          <div class="key fn-key"><span class="tap">7</span></div>
+          <div class="key fn-key"><span class="tap">8</span></div>
+          <div class="key fn-key"><span class="tap">9</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="key"><span class="tap">/</span></div>
+          <div class="key special"><span class="tap">RSHFT</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">LAlt</span></div>
+            <div class="key thumb toggle-key"><span class="tap">EXIT</span></div>
+            <div class="key thumb special"><span class="tap">LCtrl</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb special"><span class="tap">SPC</span></div>
+            <div class="key thumb special"><span class="tap">RAlt</span></div>
+            <div class="key thumb empty"><span class="tap">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Game Controls</div>
+      <table>
+        <tr><th>Key / Action</th><th>Binding</th></tr>
+        <tr><td>Jump</td><td><kbd>Left Alt</kbd> (left-outer thumb)</td></tr>
+        <tr><td>Attack</td><td><kbd>Left Ctrl</kbd> (left-inner thumb)</td></tr>
+        <tr><td>Movement</td><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> on right home row</td></tr>
+        <tr><td>Pick up</td><td><kbd>Z</kbd></td></tr>
+        <tr><td>Skills / Hotkeys</td><td><kbd>Q W E R T A S D F G</kbd> + Numbers <kbd>1-9 0</kbd></td></tr>
+        <tr><td>Exit layer</td><td>Middle-left thumb (tog 7) or FN → MAPLE</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LAYER 8 ══ -->
+  <div class="panel" id="panel-clean">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Layer 8 — COLEMAK-DH CLEAN</div>
+        <div class="access">
+          <span class="access-pill">FN/BT → CMK-CLN toggle</span>
+        </div>
+      </div>
+      <p>Pure Colemak-DH without any home row mods. Useful when HRMs interfere — e.g. fast typing practice or applications with unusual modifier behavior.</p>
+    </div>
+
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key special"><span class="tap">TAB</span></div>
+          <div class="key"><span class="tap">Q</span></div>
+          <div class="key"><span class="tap">W</span></div>
+          <div class="key"><span class="tap">F</span></div>
+          <div class="key"><span class="tap">P</span></div>
+          <div class="key"><span class="tap">B</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">J</span></div>
+          <div class="key"><span class="tap">L</span></div>
+          <div class="key"><span class="tap">U</span></div>
+          <div class="key"><span class="tap">Y</span></div>
+          <div class="key"><span class="tap">;</span></div>
+          <div class="key special"><span class="tap">BSPC</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">ESC</span></div>
+          <div class="key"><span class="tap">A</span></div>
+          <div class="key"><span class="tap">R</span></div>
+          <div class="key"><span class="tap">S</span></div>
+          <div class="key"><span class="tap">T</span></div>
+          <div class="key"><span class="tap">G</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">M</span></div>
+          <div class="key"><span class="tap">N</span></div>
+          <div class="key"><span class="tap">E</span></div>
+          <div class="key"><span class="tap">I</span></div>
+          <div class="key"><span class="tap">O</span></div>
+          <div class="key"><span class="tap">'</span></div>
+        </div>
+        <div class="kb-row">
+          <div class="key special"><span class="tap">SHFT</span></div>
+          <div class="key"><span class="tap">Z</span></div>
+          <div class="key"><span class="tap">X</span></div>
+          <div class="key"><span class="tap">C</span></div>
+          <div class="key"><span class="tap">D</span></div>
+          <div class="key"><span class="tap">V</span></div>
+          <div class="kb-gap"></div>
+          <div class="key"><span class="tap">K</span></div>
+          <div class="key"><span class="tap">H</span></div>
+          <div class="key"><span class="tap">,</span></div>
+          <div class="key"><span class="tap">.</span></div>
+          <div class="key"><span class="tap">/</span></div>
+          <div class="key special"><span class="tap">RSHFT</span></div>
+        </div>
+        <div class="kb-thumbs">
+          <div class="kb-thumbs-left">
+            <div class="key thumb special"><span class="tap">GUI</span></div>
+            <div class="key thumb layer-key"><span class="tap">NAV</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">SPC</span><span class="hold">Numpad</span></div>
+          </div>
+          <div class="kb-thumbs-right">
+            <div class="key thumb special"><span class="tap">ENT</span></div>
+            <div class="key thumb layer-key"><span class="tap">SYM</span><span class="hold">hold</span></div>
+            <div class="key thumb layer-key"><span class="tap">RAlt</span><span class="hold">FN/BT</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ COMBOS ══ -->
+  <div class="panel" id="panel-combos">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Combos</div>
+        <div class="access"><span class="access-pill">Active on Layer 0</span></div>
+      </div>
+      <p>Press both keys simultaneously to trigger the combo output. All combos are defined on the base layer and use urob's ZMK_COMBO helper.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Combo Definitions</div>
+      <table>
+        <tr>
+          <th>Keys (press together)</th>
+          <th>Output</th>
+          <th>Position on board</th>
+        </tr>
+        <tr>
+          <td><kbd>Q</kbd> + <kbd>W</kbd></td>
+          <td><span class="tag tag-cyan">ESC</span></td>
+          <td>Top row, left — positions LT1 + LT2</td>
+        </tr>
+        <tr>
+          <td><kbd>W</kbd> + <kbd>F</kbd></td>
+          <td><span class="tag tag-cyan">TAB</span></td>
+          <td>Top row, left — positions LT2 + LT3</td>
+        </tr>
+        <tr>
+          <td><kbd>T</kbd> + <kbd>N</kbd></td>
+          <td><span class="tag tag-purple">Caps Word</span></td>
+          <td>Home row, both hands — positions LM3 + RM3</td>
+        </tr>
+        <tr>
+          <td><kbd>U</kbd> + <kbd>Y</kbd></td>
+          <td><span class="tag tag-cyan">DEL</span></td>
+          <td>Top row, right — positions RT3 + RT4</td>
+        </tr>
+        <tr>
+          <td><kbd>D</kbd> + <kbd>V</kbd></td>
+          <td><span class="tag tag-yellow">Win+Shift+S</span> Screenshot</td>
+          <td>Bottom row, left — positions LB3 + LB4</td>
+        </tr>
+        <tr>
+          <td>Left-middle thumb + Right-middle thumb</td>
+          <td><span class="tag tag-yellow">Toggle MapleStory</span> (Layer 7)</td>
+          <td>Thumbs — positions LH1 + RH1</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Caps Word</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.7">
+        Caps Word capitalises all letters until a word-breaking key is pressed (space, enter, punctuation other than <code>-</code> and <code>_</code>).
+        Ideal for typing <code>CONSTANTS_LIKE_THIS</code> without holding Shift.
+        Triggered by the <kbd>T</kbd> + <kbd>N</kbd> combo.
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Sticky Shift</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.7">
+        The left Shift key (<code>skq LSHFT</code>) is configured as a sticky key with a 1000 ms release window and quick-release.
+        Tap once → shift applies to the very next key only. No need to hold. Ideal for capitalising single characters.
+      </p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ SETTINGS ══ -->
+  <div class="panel" id="panel-settings">
+    <div class="layer-desc">
+      <div>
+        <div class="layer-badge">Firmware Settings</div>
+      </div>
+      <p>Active ZMK configuration from <code>config/corne.conf</code> and <code>config/west.yml</code>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Active Settings (corne.conf)</div>
+      <div class="config-grid">
+        <div class="config-card">
+          <h4>TX Power</h4>
+          <div class="config-val">+8 dBm</div>
+          <div class="config-note">CONFIG_BT_CTLR_TX_PWR_PLUS_8=y — max Bluetooth range</div>
+        </div>
+        <div class="config-card">
+          <h4>Debounce Press</h4>
+          <div class="config-val">1 ms</div>
+          <div class="config-note">Eager debouncing — very fast key registration</div>
+        </div>
+        <div class="config-card">
+          <h4>Debounce Release</h4>
+          <div class="config-val">10 ms</div>
+          <div class="config-note">Release debounce — avoids phantom key-ups</div>
+        </div>
+        <div class="config-card">
+          <h4>ZMK Studio</h4>
+          <div class="config-val" style="color:var(--green)">Enabled</div>
+          <div class="config-note">Real-time keymap edits without recompiling; locking disabled</div>
+        </div>
+        <div class="config-card">
+          <h4>Deep Sleep</h4>
+          <div class="config-val" style="color:var(--muted)">Disabled</div>
+          <div class="config-note">CONFIG_ZMK_SLEEP commented out</div>
+        </div>
+        <div class="config-card">
+          <h4>USB Logging</h4>
+          <div class="config-val" style="color:var(--muted)">Disabled</div>
+          <div class="config-note">Enable only when debugging (high power cost)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Dependencies (west.yml)</div>
+      <table>
+        <tr><th>Package</th><th>Version</th><th>Source</th></tr>
+        <tr>
+          <td><strong>ZMK</strong></td>
+          <td><span class="tag tag-green">v0.3.0</span></td>
+          <td>zmkfirmware/zmk</td>
+        </tr>
+        <tr>
+          <td><strong>zmk-helpers</strong></td>
+          <td><span class="tag tag-green">v0.3.0</span></td>
+          <td>urob/zmk-helpers</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Build Matrix (build.yaml)</div>
+      <table>
+        <tr><th>Half</th><th>Board</th><th>Shield</th><th>Snippet</th></tr>
+        <tr>
+          <td><span class="tag tag-blue">Left</span></td>
+          <td>nice_nano_v2</td>
+          <td>corne_left + nice_view_adapter + nice_view</td>
+          <td>studio-rpc-usb-uart</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-purple">Right</span></td>
+          <td>nice_nano_v2</td>
+          <td>corne_right + nice_view_adapter + nice_view</td>
+          <td>—</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Layer Access Quick Reference</div>
+      <table>
+        <tr><th>Action</th><th>Layer</th></tr>
+        <tr><td>Default</td><td><span class="tag tag-blue">L0</span> Colemak-DH</td></tr>
+        <tr><td>Hold left-middle thumb</td><td><span class="tag tag-green">L2</span> NAV</td></tr>
+        <tr><td>Hold right-middle thumb</td><td><span class="tag tag-green">L1</span> NUM/SYM</td></tr>
+        <tr><td>Hold Space (left-inner thumb)</td><td><span class="tag tag-yellow">L4</span> Numpad</td></tr>
+        <tr><td>Hold RAlt (right-outer thumb)</td><td><span class="tag tag-yellow">L3</span> FN/BT</td></tr>
+        <tr><td>NAV + W position (Ctrl+W key)</td><td><span class="tag tag-purple">L5</span> One-Hand (toggle)</td></tr>
+        <tr><td>FN → QWERTY key (bottom-left)</td><td><span class="tag tag-purple">L6</span> QWERTY (toggle)</td></tr>
+        <tr><td>FN → MAPLE key or thumb combo</td><td><span class="tag tag-purple">L7</span> MapleStory (toggle)</td></tr>
+        <tr><td>FN → CMK-CLN key</td><td><span class="tag tag-purple">L8</span> Colemak-Clean (toggle)</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  document.getElementById('tabs').addEventListener('click', function(e) {
+    const btn = e.target.closest('.tab');
+    if (!btn) return;
+    const panelId = 'panel-' + btn.dataset.panel;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  });
+</script>
+</body>
+</html>
